@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z0p-v3-5MG">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Detail View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" id="BYZ-38-t0r" customClass="DetailViewController" customModule="記帳" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hDb-ew-Tgc">
+                                <rect key="frame" x="0.0" y="103" width="393" height="621"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="47w-Im-hFO">
+                                <rect key="frame" x="159.66666666666666" y="739" width="74" height="64"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="add"/>
+                                <connections>
+                                    <action selector="showEditor:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ljc-L3-KR6"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ga6-4h-Ree">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2th-bU-uUh" customClass="InputView" customModule="記帳" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="818" width="393" height="0.0"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="nEB-Im-VA5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2th-bU-uUh" secondAttribute="bottom" id="0Ng-Jg-5Fi"/>
+                            <constraint firstItem="2th-bU-uUh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="11q-B5-btV"/>
+                            <constraint firstItem="Ga6-4h-Ree" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="6UF-qs-oNs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2th-bU-uUh" secondAttribute="trailing" id="CE0-Jj-4Zv"/>
+                            <constraint firstItem="47w-Im-hFO" firstAttribute="top" secondItem="hDb-ew-Tgc" secondAttribute="bottom" constant="15" id="F4p-lI-GgQ"/>
+                            <constraint firstItem="hDb-ew-Tgc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="I9l-vQ-Nrv"/>
+                            <constraint firstAttribute="bottom" secondItem="Ga6-4h-Ree" secondAttribute="bottom" id="JTV-PQ-igh"/>
+                            <constraint firstAttribute="trailing" secondItem="Ga6-4h-Ree" secondAttribute="trailing" id="OaA-sO-cgA"/>
+                            <constraint firstItem="hDb-ew-Tgc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Piy-rZ-ij0"/>
+                            <constraint firstItem="Ga6-4h-Ree" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="RMa-4e-LGs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hDb-ew-Tgc" secondAttribute="trailing" id="WVc-Ct-gxX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="47w-Im-hFO" secondAttribute="bottom" constant="15" id="g9O-eQ-KGR"/>
+                            <constraint firstItem="47w-Im-hFO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hR4-ON-lgr"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="n1I-rW-Bb6">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="E8o-vQ-jXO">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Zlv-UL-YMg">
+                                <rect key="frame" x="290" y="4.6666666666666679" width="87" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="選單"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="buttonMenu" destination="Zlv-UL-YMg" id="u3c-ca-wFs"/>
+                        <outlet property="detailTableView" destination="hDb-ew-Tgc" id="Qvc-RP-J7i"/>
+                        <outlet property="editView" destination="2th-bU-uUh" id="N1D-Uf-MbH"/>
+                        <outlet property="editViewHeight" destination="nEB-Im-VA5" id="b7z-nt-s5r"/>
+                        <outlet property="mask" destination="Ga6-4h-Ree" id="Sja-yD-rTS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5392" y="-57"/>
+        </scene>
+        <!--Tab Bar Init View Controller-->
+        <scene sceneID="ApM-8Q-zAi">
+            <objects>
+                <tabBarController id="z0p-v3-5MG" customClass="TabBarInitViewController" customModule="記帳" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8XP-hH-cL6">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w6V-fO-R44" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3544" y="274"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="C0J-Va-xEw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BXW-AO-CzZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="flJ-l6-5XJ">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="XmS-D1-tFk"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g0c-K4-ZaF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4463" y="-57"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="add" width="50" height="50"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
