@@ -81,16 +81,18 @@ class InputView: UIView {
         topBorderView.addGestureRecognizer(swipeGesture)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeKeyboardObjc(_:)))
+        topBorderView.addGestureRecognizer(tapGesture)
         
       
     }
     @objc func closeView(_ gesture: UITapGestureRecognizer) {
+        topBorderView.endEditing(true)
         //closure寫法
         //self.closeEditViewClosure()
         
         
         //delegate寫法
-        self.delegate?.closeInputViewDelegate()
+//        self.delegate?.closeInputViewDelegate()
     }
     
     @objc func closeKeyboardObjc(_ gesture: UITapGestureRecognizer){
@@ -100,7 +102,7 @@ class InputView: UIView {
     }
     
     @IBAction func closeKeyboard(_ sender: Any) {
-        topBorderView.endEditing(true)
+//        topBorderView.endEditing(true)
     }
     
     func loadXibView(viewName: String){
