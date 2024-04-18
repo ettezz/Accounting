@@ -88,19 +88,20 @@ class DetailViewController: UIViewController {
         
         
         //closure 關editView
-//        editView.closeEditViewClosure = { [weak self] in
-//            guard let selfVC = self else { return }
-//            if selfVC.editViewHeight.constant != 0 {
-//                UIView.animate(withDuration: 0.5) {
-//                    selfVC.editViewHeight.constant = 0
-//                    selfVC.mask.isHidden = true
-//                    selfVC.editView.setNeedsLayout()
-//                    selfVC.editView.layoutIfNeeded()
-//                } completion: { finish in
-//                    selfVC.editView.isHidden = true
-//                }
-//            }
-//        }
+        editView.closeEditViewClosure = { [weak self] in
+            self?.mask.isHidden = true
+            guard let selfVC = self else { return }
+            if selfVC.editViewHeight.constant != 0 {
+                UIView.animate(withDuration: 0.5) {
+                    selfVC.editViewHeight.constant = 0
+                    selfVC.mask.isHidden = true
+                    selfVC.editView.setNeedsLayout()
+                    selfVC.editView.layoutIfNeeded()
+                } completion: { finish in
+                    selfVC.editView.isHidden = true
+                }
+            }
+        }
     }
     
 
@@ -172,7 +173,7 @@ class DetailViewController: UIViewController {
     func initFakeData(){
         //----init假資料ＳＴＡＲＴ
         let dataDetail1 = CellInfoDetail(item: "餐飲", price: "300")
-        let dataDetail2 = CellInfoDetail(item: "餐飲", remark: "聚餐", price: "1200")
+        let dataDetail2 = CellInfoDetail(item: "餐飲", remark: "聚餐聚餐聚餐聚餐聚餐聚餐聚餐聚餐聚餐聚餐", price: "1200")
         
         let dataDetail3 = CellInfoDetail(item: "交通", price: "120")
         let dataDetail4 = CellInfoDetail(item: "餐飲", remark: "零食", price: "350")
@@ -259,11 +260,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource{
 
 }
 
-extension DetailViewController: InputViewDelegate{
-    func closeInputViewKeyboardDelegate() {
-        self.view.endEditing(true)
-    }
-    
+extension DetailViewController: InputViewDelegate{    
     
     func closeInputViewDelegate() {
         if self.editViewHeight.constant != 0 {

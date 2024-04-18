@@ -43,7 +43,11 @@ class InputView: UIView {
 
     weak var delegate: InputViewDelegate?
     
+    var keyboardToolBarTextlabel:UILabel?
     
+    var swipeGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer()
+    
+    var swipeGestureActive: Bool = true
     
     var tableViewShowText:[String]? = ["餐飲","零食","衣服","交通","日用品","化妝品","加油","娛樂","家用","旅行","自訂"]
     var tableViewHideText:[String]? = ["社交","購物","運動","醫療","禮物","小孩","寵物"]
@@ -61,49 +65,36 @@ class InputView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         loadXibView(viewName: "InputView")
-        display.layer.cornerRadius = display.frame.height / 2
-        btnOutsideViewHeight.constant = UIScreen.main.bounds.height * 0.3
-        btnView.setNeedsLayout()
-        btnView.layoutIfNeeded()
         setTableViewNib()
-        setBtnFrame()
-        
-        //dateLabel預設今天日期
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        //btn修改文字內容要用setTitle(預設定之文字, .normal)
-        dateBtn.setTitle(formatter.string(from: date), for: .normal)
-        remarkTextFieldHeight.constant = (display.frame.height-0.5) * 0.45
-        
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(closeView(_:)))
+        setUIFrames()
+        setKeyboardToolBar()
+        setCloseEditView()
+
+    }
+    
+    
+    
+    
+     /**
+        將editView下縮
+     */
+    func setCloseEditView(){
+        self.swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(setCloseEditViewObjc(_:)))
         swipeGesture.direction = .down
         topBorderView.addGestureRecognizer(swipeGesture)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(closeKeyboardObjc(_:)))
-        topBorderView.addGestureRecognizer(tapGesture)
-        
-      
     }
-    @objc func closeView(_ gesture: UITapGestureRecognizer) {
-        topBorderView.endEditing(true)
+    @objc func setCloseEditViewObjc(_ gesture: UITapGestureRecognizer) {
+        guard swipeGestureActive else { return }
+        self.price.text = "0"
+        self.remarkTextfield.text = ""
         //closure寫法
-        //self.closeEditViewClosure()
+        self.closeEditViewClosure()
         
         
         //delegate寫法
-//        self.delegate?.closeInputViewDelegate()
+        //self.delegate?.closeInputViewDelegate()
     }
-    
-    @objc func closeKeyboardObjc(_ gesture: UITapGestureRecognizer){
-        
-        self.delegate?.closeInputViewDelegate()
-        
-    }
-    
-    @IBAction func closeKeyboard(_ sender: Any) {
-//        topBorderView.endEditing(true)
-    }
+
     
     func loadXibView(viewName: String){
         if let sub = self.tmpView{
@@ -123,36 +114,130 @@ class InputView: UIView {
     }
     
     
+    
     /**
-        設定tableViewNib
+        設定輸入備註時的小鍵盤上方功能列
+     */
+    func setKeyboardToolBar(){
+        let screenWidth = UIScreen.main.bounds.width
+        
+        //小鍵盤上方的toolBar
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 50))
+        toolBar.backgroundColor = .gray
+        
+        //清除按鈕
+        let cleanKeyboardButton = UIBarButtonItem(title: "clean", style: .plain, target: self, action: #selector(cleanEditText))
+        
+        //顯示編輯的View
+        let displayView = UIView(frame: CGRect(x: 0, y: 2, width: screenWidth * 0.75, height: 30))
+        displayView.layer.cornerRadius = 15
+        displayView.backgroundColor = .white
+        //設定View裡面顯示的label
+        self.keyboardToolBarTextlabel = UILabel(frame: CGRect(x: 10, y: 2, width: screenWidth * 0.75 - 20, height: 28))
+        self.keyboardToolBarTextlabel?.textColor = .black
+        self.keyboardToolBarTextlabel?.text = ""
+        displayView.addSubview(keyboardToolBarTextlabel ?? UILabel())
+        let toolBarView = UIBarButtonItem(customView: displayView)
+        
+        //監聽remarkTextfield,當文字改變時toolBar工具裡的文字也要改變
+        remarkTextfield.addTarget(self, action: #selector(changeTextOnToolbar), for: .editingChanged)
+        
+        //元件之間的空白，會自動調整寬度
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        //用陣列排序元件
+        toolBar.items = [flexSpace, toolBarView, cleanKeyboardButton]
+        toolBar.sizeToFit()
+        self.remarkTextfield.inputAccessoryView = toolBar
+    }
+    /**
+        清除畫面文字
+     */
+    @objc func cleanEditText(_ sender: Any) {
+        self.keyboardToolBarTextlabel?.text = ""
+        remarkTextfield.text = ""
+    }
+    /**
+        備註欄位植被變更時螢幕小鍵盤上面的文字也要被變更
+        判斷最大值20字
+     */
+    @objc func changeTextOnToolbar(){
+        if var textFieldText = remarkTextfield.text{
+            if(textFieldText.count <= 20){
+                self.keyboardToolBarTextlabel?.text = textFieldText
+            }
+            else{
+                remarkTextfield.text = String(textFieldText.prefix(20))
+                self.keyboardToolBarTextlabel?.text = String(textFieldText.prefix(20))
+            }
+        }
+        
+    }
+    
+    
+    /**
+        設定tableViewNib/delegate
      */
     func setTableViewNib(){
         let tableViewNib = UINib(nibName: "InputViewTableViewCell", bundle: nil)
         self.itemTableView.register(tableViewNib, forCellReuseIdentifier: "InputViewTableViewCell")
         itemTableView.delegate = self
         itemTableView.dataSource = self
+        remarkTextfield.delegate = self
     }
     
+    
+    
+    /**
+        變更日期
+     */
     @IBAction func changeDate(_ sender: Any) {
         self.presentDatePickerClosure()
     }
 
+    
+    
     /**
-        將按鈕導圓角
+        設定畫面內Frame設定
      */
-    func setBtnFrame(){
+    func setUIFrames(){
+        //display導圓角
+        self.display.layer.cornerRadius = display.frame.height / 2
+       
+        //數字區btn導圓角
         for btn in btnCollection{
             btn.layer.cornerRadius = btn.frame.height / 2
         }
+        
+        //數字區高度
+        self.btnOutsideViewHeight.constant = UIScreen.main.bounds.height * 0.3
+        self.btnView.setNeedsLayout()
+        self.btnView.layoutIfNeeded()
+        
+        //dateLabel預設今天日期
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        //btn修改文字內容要用setTitle(預設定之文字, .normal)
+        dateBtn.setTitle(formatter.string(from: date), for: .normal)
+        
+        //設定備註textField高度
+        remarkTextFieldHeight.constant = (display.frame.height-0.5) * 0.45
     }
     
+    
+    
+    /**
+        按數字按鈕修改price
+     */
     @IBAction func numberBtnAction(_ sender: UIButton) {
         let priceLabel = self.price.text ?? "0"
         if(priceLabel.count == 17){
             return
         }
         
-        if let btnText = sender.titleLabel?.text{            if(self.validatePriceFormat()){
+        if let btnText = sender.titleLabel?.text{            
+            if(self.validatePriceFormat()){
                 switch(btnText){
                 case "1":
                     self.price.text = priceLabel + btnText
@@ -182,7 +267,6 @@ class InputView: UIView {
             }
         }
     }
-    
     /**
         判斷price數字格式是否合法
         true:price當下文字不為０
@@ -198,6 +282,11 @@ class InputView: UIView {
         }
     }
     
+    
+    
+    /**
+        btn回退鍵
+     */
     @IBAction func undoPrice(_ sender: Any) {
         var priceLabel = self.price.text ?? "0"
         if (priceLabel.count > 1 ){
@@ -212,7 +301,9 @@ class InputView: UIView {
     
 }
 
-/**
+
+
+/** extension
     UITableView delegate / dataSource
  */
 extension InputView: UITableViewDelegate, UITableViewDataSource{
@@ -238,4 +329,21 @@ extension InputView: UITableViewDelegate, UITableViewDataSource{
 
 }
 
+
+/** extension
+    UITextFieldDelegate
+ */
+extension InputView: UITextFieldDelegate{
+    //在使用者按下 Return 鍵時被呼叫
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder() // 收起鍵盤
+        swipeGestureActive = true
+        return true
+    }
+    
+    //在使用者開始編輯文字欄位之前被呼叫
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        swipeGestureActive = false
+    }
+}
 

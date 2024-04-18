@@ -76,13 +76,13 @@
                                         <constraint firstAttribute="height" constant="0.5" id="waF-Dz-TBF"/>
                                     </constraints>
                                 </view>
-                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入備註" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcv-Y4-qO0">
-                                    <rect key="frame" x="20" y="30.666666666666671" width="209" height="17.333333333333329"/>
+                                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入備註(最多20字)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mcv-Y4-qO0">
+                                    <rect key="frame" x="20" y="30.666666666666671" width="199" height="17.333333333333329"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="17.5" id="cIt-9E-nYS"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 </textField>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rih-oK-rPh">
                                     <rect key="frame" x="20" y="3" width="199" height="24"/>
@@ -95,7 +95,7 @@
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="mcv-Y4-qO0" secondAttribute="bottom" id="0Cs-CH-fzX"/>
                                 <constraint firstItem="hsr-BJ-O2s" firstAttribute="leading" secondItem="3wJ-la-VtB" secondAttribute="leading" id="0u5-Uf-DJs"/>
-                                <constraint firstAttribute="trailing" secondItem="mcv-Y4-qO0" secondAttribute="trailing" id="3rf-qY-sv2"/>
+                                <constraint firstAttribute="trailing" secondItem="mcv-Y4-qO0" secondAttribute="trailing" constant="10" id="3rf-qY-sv2"/>
                                 <constraint firstItem="Rih-oK-rPh" firstAttribute="top" secondItem="3wJ-la-VtB" secondAttribute="top" constant="3" id="AC2-sM-YE8"/>
                                 <constraint firstItem="Rih-oK-rPh" firstAttribute="leading" secondItem="3wJ-la-VtB" secondAttribute="leading" constant="20" id="JOg-Zz-By1"/>
                                 <constraint firstAttribute="trailing" secondItem="Rih-oK-rPh" secondAttribute="trailing" constant="10" id="VWd-FD-O9q"/>
@@ -353,9 +353,10 @@
                         <constraint firstAttribute="width" constant="20" id="bUt-cT-XAl"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gR-uA-eDP" userLabel="borderOutsideView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gR-uA-eDP" userLabel="topBorderView">
                     <rect key="frame" x="0.0" y="59" width="393" height="10"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="10" id="Pox-Wg-5lM"/>
                     </constraints>
@@ -381,16 +382,8 @@
                 <constraint firstItem="JBR-pv-TM7" firstAttribute="leading" secondItem="V7m-6M-v0o" secondAttribute="trailing" constant="10" id="wtA-m0-SXv"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outletCollection property="gestureRecognizers" destination="fNG-fD-tg8" appends="YES" id="Lyq-bX-EsM"/>
-            </connections>
             <point key="canvasLocation" x="95.419847328244273" y="-94.014084507042256"/>
         </view>
-        <tapGestureRecognizer id="fNG-fD-tg8">
-            <connections>
-                <action selector="closeKeyboard:" destination="-1" id="PhU-A1-Gkf"/>
-            </connections>
-        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="restaurant" width="16" height="16"/>

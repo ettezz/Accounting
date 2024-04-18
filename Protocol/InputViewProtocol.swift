@@ -12,7 +12,5 @@ protocol InputViewDelegate: AnyObject {
     
     func closeInputViewDelegate()
     
-    func closeInputViewKeyboardDelegate()
-    
 }
 
