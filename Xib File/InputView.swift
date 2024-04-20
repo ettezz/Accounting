@@ -48,12 +48,14 @@ class InputView: UIView {
     var swipeGesture:UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     
     var swipeGestureActive: Bool = true
+    var isScrollUp  = false
     
     var tableViewShowText:[String]? = ["餐飲","零食","衣服","交通","日用品","化妝品","加油","娛樂","家用","旅行","自訂"]
     var tableViewHideText:[String]? = ["社交","購物","運動","醫療","禮物","小孩","寵物"]
     var showIconImg:[String]? = ["restaurant", "candy","polo-shirt","bus","box","cosmetic","car","microphone","home","airplane","tools"]
     var hideIconImg:[String] = ["friend","cart","woman-biking","doctors-bag","present","kid","pet"]
-    
+    var currentOffset: CGFloat = 0
+    var previousOffset: CGFloat = 0
     /**
      load XIB畫面固定程式碼，UI設定都要在loadXibView之後才能做
      */
@@ -69,7 +71,7 @@ class InputView: UIView {
         setUIFrames()
         setKeyboardToolBar()
         setCloseEditView()
-
+        itemTableView.bounces = true
     }
     
     
@@ -162,7 +164,7 @@ class InputView: UIView {
         判斷最大值20字
      */
     @objc func changeTextOnToolbar(){
-        if var textFieldText = remarkTextfield.text{
+        if let textFieldText = remarkTextfield.text{
             if(textFieldText.count <= 20){
                 self.keyboardToolBarTextlabel?.text = textFieldText
             }
@@ -319,13 +321,75 @@ extension InputView: UITableViewDelegate, UITableViewDataSource{
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InputViewTableViewCell", for: indexPath) as! InputViewTableViewCell
-        if let iconName = showIconImg?[indexPath.row], 
+        if let iconName = showIconImg?[indexPath.row],
             let labelName = tableViewShowText?[indexPath.row]{
             cell.setCell(imgName: iconName, labelName: labelName)
         }
         
         return cell
     }
+
+    
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        previousOffset = self.itemTableView.contentOffset.y
+        
+//        if let dataArrayCount = tableViewShowText?.count,
+//           let iconImg = showIconImg, let itemText = tableViewShowText {
+//            if(self.currentOffset < self.previousOffset ) {
+//                print("下滑出現的是\(itemText[indexPath.row+1])")
+//                //                let newIcon = iconImg[indexPath.row - 4]
+//                //                let newText = itemText[indexPath.row - 4]
+//                //                self.itemImg.image = UIImage(named: newIcon)
+//                //                self.itemLabel.text = newText
+//            }
+//        }
+        
+        
+        
+//        if let dataCount = tableViewShowText?.count{
+//            if(indexPath.row == dataCount - 1){
+//                let indexPath = IndexPath(row: 0, section: 0)
+//                let cell = tableView.cellForRow(at: indexPath) as? InputViewTableViewCell
+//                tableView.performBatchUpdates(nil)
+//            }
+//        }
+        
+    }
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.currentOffset = self.itemTableView.contentOffset.y
+        if let dataArrayCount = tableViewShowText?.count,
+            let iconImg = showIconImg, let itemText = tableViewShowText {
+            if(isScrollUp && indexPath.row <= dataArrayCount-2){
+//                self.previousOffset = self.currentOffset
+                print("原本的Ｙ＝\(previousOffset), 現在的Ｙ＝\(currentOffset),上滑消失的是\(itemText[indexPath.row])")
+                let newIcon = iconImg[indexPath.row]
+                let newText = itemText[indexPath.row]
+                self.itemImg.image = UIImage(named: newIcon)
+                self.itemLabel.text = newText
+            }
+           
+        }
+        
+
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(self.currentOffset > self.previousOffset){
+            
+            isScrollUp = true
+        }
+        else{
+            isScrollUp = false
+
+        }
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        
+        
+    }
+    
+
 
 }
 
